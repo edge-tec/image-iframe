@@ -231,7 +231,7 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
 
                 <!-- Main Fabric.js Wrapper -->
-                <div class="canvas-container-outer bg-dark">
+                <div class="canvas-container-outer bg-dark" style="aspect-ratio: 1/1; width: 100%;">
                     <canvas id="editorCanvas"></canvas>
                 </div>
 

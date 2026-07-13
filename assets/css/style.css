@@ -162,12 +162,14 @@ body {
 /* Fabric.js responsive override */
 .canvas-container {
     max-width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
+    aspect-ratio: 1/1;
     margin: 0 auto;
 }
 canvas {
     max-width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
+    aspect-ratio: 1/1;
 }
 
 /* ─── Frame Thumbnails Grid ──────────────────────────────────── */
