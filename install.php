@@ -29,10 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['db_name'] ?? 'image_frame_generator';
 
     try {
-        // Connect and create database
-        $pdo = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        $pdo->exec("CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-        $pdo->exec("USE `$name`");
+        // Connect directly to the specified database
+        $pdo = new PDO("mysql:host=$host;dbname=$name;charset=utf8mb4", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
         // Execute SQL commands
         $sql = file_get_contents(__DIR__ . '/database.sql');

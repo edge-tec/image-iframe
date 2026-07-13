@@ -2,12 +2,10 @@
 -- Image Frame Generator — Complete MySQL Database Schema
 -- PHP 8.2 + MySQL 8.0 | Character Set: utf8mb4
 -- ================================================================
+-- Initialization
 
-CREATE DATABASE IF NOT EXISTS `image_frame_generator`
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
 
-USE `image_frame_generator`;
+-- Database configuration is handled dynamically by PDO
 
 -- ================================================================
 -- RESET OLD INSTALLATION (Drop existing tables safely)
