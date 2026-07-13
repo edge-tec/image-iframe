@@ -147,7 +147,14 @@ require_once __DIR__ . '/includes/header.php';
                 </div>
                 
                 <div class="mb-3">
-                    <textarea class="form-control font-bangla bg-dark text-white border-secondary-subtle" id="headlineText" rows="2" placeholder="আপনার শিরোনাম এখানে লিখুন (Write headline here...)"></textarea>
+                    <label class="form-label small text-muted">Headline (শিরোনাম)</label>
+                    <textarea class="form-control font-bangla bg-dark text-white border-secondary-subtle mb-2" id="headlineText" rows="2" placeholder="আপনার শিরোনাম এখানে লিখুন (Write headline here...)"></textarea>
+                    
+                    <label class="form-label small text-muted">Sub Heading (সাব-হেডিং) - Optional</label>
+                    <input type="text" class="form-control font-bangla bg-dark text-white border-secondary-subtle mb-2" id="subheadingText" placeholder="সাব-হেডিং লিখুন...">
+                    
+                    <label class="form-label small text-muted">Reporter Name (রিপোর্টারের নাম) - Optional</label>
+                    <input type="text" class="form-control font-bangla bg-dark text-white border-secondary-subtle" id="reporterText" placeholder="রিপোর্টারের নাম...">
                 </div>
 
                 <div class="row g-2 align-items-center">

@@ -157,6 +157,32 @@ if (!empty($headline) && isset($template['headline'])) {
     draw_wrapped_text($canvas, $headline, $fontFile, $headSize, $headColor, (int)$headX, (int)$yAdj, (int)$maxWidth, $headAlign, 1.4, $headShadow, '#000000');
 }
 
+// Subheading
+$subheading = $_POST['subheading'] ?? '';
+if (!empty($subheading) && isset($template['subheading'])) {
+    $fontFile = resolve_font_path($headFont, false);
+    $sc = $template['subheading'];
+    $sSize = (int)($sc['fontSize'] ?? 30);
+    $sColor = $sc['color'] ?? '#3b82f6';
+    $sX = (int)$sc['x'];
+    $sY = (int)$sc['y'] - ($sSize / 2);
+    
+    draw_wrapped_text($canvas, $subheading, $fontFile, $sSize, $sColor, $sX, $sY, (int)($cw * 0.8), 'center', 1.4, false, '#000000');
+}
+
+// Reporter
+$reporter = $_POST['reporter'] ?? '';
+if (!empty($reporter) && isset($template['reporter'])) {
+    $fontFile = resolve_font_path($headFont, false);
+    $rc = $template['reporter'];
+    $rSize = (int)($rc['fontSize'] ?? 30);
+    $rColor = $rc['color'] ?? '#14b8a6';
+    $rX = (int)$rc['x'];
+    $rY = (int)$rc['y'] - ($rSize / 2);
+    
+    draw_wrapped_text($canvas, $reporter, $fontFile, $rSize, $rColor, $rX, $rY, (int)($cw * 0.8), 'center', 1.4, false, '#000000');
+}
+
 // ─── 7. WATERMARK ───────────────────────────────────────────────
 $wmEnabled = get_setting($pdo, 'watermark_enabled', '0');
 if ($wmEnabled === '1') {

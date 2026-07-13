@@ -154,14 +154,14 @@ $(document).ready(function() {
             });
             addLabelToObj(obj, 'Logo');
         }
-        else if (type === 'headline' || type === 'date' || type === 'time') {
-            const colors = { headline: '#a855f7', date: '#eab308', time: '#f43f5e' };
-            const texts = { headline: 'Headline Text', date: 'Date Text', time: 'Time Text' };
+        else if (type === 'headline' || type === 'subheading' || type === 'reporter' || type === 'date' || type === 'time') {
+            const colors = { headline: '#a855f7', subheading: '#3b82f6', reporter: '#14b8a6', date: '#eab308', time: '#f43f5e' };
+            const texts = { headline: 'Headline Text', subheading: 'Sub Heading', reporter: 'Reporter Name', date: 'Date Text', time: 'Time Text' };
             
             obj = new fabric.IText(texts[type], {
                 ...commonProps,
                 fontSize: type === 'headline' ? 60 : 30,
-                fill: colors[type],
+                fill: colors[type] || '#000000',
                 fontFamily: 'Arial',
                 fontWeight: 'bold',
                 textAlign: 'center'
@@ -361,10 +361,10 @@ $(document).ready(function() {
                     x: x, y: y,
                     width: Math.round(w), height: Math.round(h)
                 };
-            } else if (type === 'headline' || type === 'date' || type === 'time') {
+            } else if (['headline', 'subheading', 'reporter', 'date', 'time'].includes(type)) {
                 jsonTpl[type] = {
-                    x: Math.round(obj.left), // text is centered, keep center X for text alignment
-                    y: Math.round(obj.top),  // GD wrapped text function handles center X
+                    x: Math.round(obj.left),
+                    y: Math.round(obj.top),
                     fontSize: Math.round(obj.fontSize * obj.scaleX),
                     color: obj.fill
                 };

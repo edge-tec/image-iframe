@@ -75,6 +75,12 @@ if ($editId > 0) {
                     <div class="btn btn-sm btn-outline-primary drag-source" data-type="headline" draggable="true">
                         <i class="fa-solid fa-heading me-1"></i> Headline Text
                     </div>
+                    <div class="btn btn-sm btn-outline-secondary drag-source" data-type="subheading" draggable="true">
+                        <i class="fa-solid fa-font me-1"></i> Sub Heading
+                    </div>
+                    <div class="btn btn-sm btn-outline-dark drag-source" data-type="reporter" draggable="true">
+                        <i class="fa-solid fa-user-pen me-1"></i> Reporter Name
+                    </div>
                     <div class="btn btn-sm btn-outline-warning drag-source" data-type="date" draggable="true">
                         <i class="fa-solid fa-calendar me-1"></i> Date Text
                     </div>

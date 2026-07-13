@@ -26,6 +26,8 @@ $(document).ready(function() {
     let frameImgObj = null;
     let logoImgObj = null;
     let headlineObj = null;
+    let subheadingObj = null;
+    let reporterObj = null;
     let dateObj = null;
     let timeObj = null;
 
@@ -248,6 +250,8 @@ $(document).ready(function() {
     
     function initTypography() {
         if (headlineObj) canvas.remove(headlineObj);
+        if (subheadingObj) canvas.remove(subheadingObj);
+        if (reporterObj) canvas.remove(reporterObj);
         if (dateObj) canvas.remove(dateObj);
         if (timeObj) canvas.remove(timeObj);
 
@@ -271,6 +275,36 @@ $(document).ready(function() {
                 cornerColor: '#a855f7', transparentCorners: false, borderColor: '#a855f7'
             });
             canvas.add(headlineObj);
+        }
+
+        // Subheading
+        if (currentConfig.subheading) {
+            const sc = currentConfig.subheading;
+            subheadingObj = new fabric.Textbox($('#subheadingText').val() || '', {
+                left: sc.x, top: sc.y,
+                width: 600, originX: 'center', textAlign: 'center',
+                fontSize: sc.fontSize || 30,
+                fill: sc.color || '#3b82f6',
+                fontFamily: sc.font || 'Hind Siliguri',
+                fontWeight: 'normal',
+                cornerColor: '#3b82f6', transparentCorners: false, borderColor: '#3b82f6'
+            });
+            canvas.add(subheadingObj);
+        }
+
+        // Reporter
+        if (currentConfig.reporter) {
+            const rc = currentConfig.reporter;
+            reporterObj = new fabric.Textbox($('#reporterText').val() || '', {
+                left: rc.x, top: rc.y,
+                width: 600, originX: 'center', textAlign: 'center',
+                fontSize: rc.fontSize || 30,
+                fill: rc.color || '#14b8a6',
+                fontFamily: rc.font || 'Hind Siliguri',
+                fontWeight: 'normal',
+                cornerColor: '#14b8a6', transparentCorners: false, borderColor: '#14b8a6'
+            });
+            canvas.add(reporterObj);
         }
 
         // Date & Time
@@ -308,11 +342,27 @@ $(document).ready(function() {
             headlineObj.set({ text: $(this).val() });
             canvas.renderAll();
         }
-    });
+    }).on('change', saveHistory);
+
+    $('#subheadingText').on('input', function() {
+        if (subheadingObj) {
+            subheadingObj.set({ text: $(this).val() });
+            canvas.renderAll();
+        }
+    }).on('change', saveHistory);
+
+    $('#reporterText').on('input', function() {
+        if (reporterObj) {
+            reporterObj.set({ text: $(this).val() });
+            canvas.renderAll();
+        }
+    }).on('change', saveHistory);
 
     $('#fontColorPicker').on('input', function() {
         const color = $(this).val();
         if (headlineObj) headlineObj.set({ fill: color });
+        if (subheadingObj) subheadingObj.set({ fill: color });
+        if (reporterObj) reporterObj.set({ fill: color });
         if (dateObj) dateObj.set({ fill: color });
         if (timeObj) timeObj.set({ fill: color });
         canvas.renderAll();
@@ -328,11 +378,12 @@ $(document).ready(function() {
     }).on('change', saveHistory);
 
     $('#fontFamilySelect').on('change', function() {
-        if (headlineObj) {
-            headlineObj.set({ fontFamily: $(this).val() });
-            canvas.renderAll();
-            saveHistory();
-        }
+        const font = $(this).val();
+        if (headlineObj) headlineObj.set({ fontFamily: font });
+        if (subheadingObj) subheadingObj.set({ fontFamily: font });
+        if (reporterObj) reporterObj.set({ fontFamily: font });
+        canvas.renderAll();
+        saveHistory();
     });
 
     $('#btnBold').on('change', function() {
@@ -537,6 +588,9 @@ $(document).ready(function() {
                 headline_bold: $('#btnBold').is(':checked') ? 1 : 0,
                 headline_shadow: $('#btnShadow').is(':checked') ? 1 : 0,
                 headline_align: $('.align-opt.active').data('align') || 'center',
+                
+                subheading: subheadingObj ? subheadingObj.text : '',
+                reporter: reporterObj ? reporterObj.text : '',
                 
                 // Formats
                 format: format,
