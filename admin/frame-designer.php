@@ -64,7 +64,7 @@ if ($editId > 0) {
             
             <!-- Placeholders Legend -->
             <div class="mt-3">
-                <h6 class="font-outfit fw-bold text-muted small mb-2">Available Elements (Drag onto canvas to add)</h6>
+                <h6 class="font-outfit fw-bold text-muted small mb-2">Available Elements (Click or drag to add)</h6>
                 <div class="placeholder-legend">
                     <div class="btn btn-sm btn-outline-info drag-source" data-type="image" draggable="true">
                         <i class="fa-solid fa-image me-1"></i> User Photo Area

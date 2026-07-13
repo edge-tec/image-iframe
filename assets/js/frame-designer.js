@@ -107,6 +107,13 @@ $(document).ready(function() {
         e.originalEvent.dataTransfer.setData('type', $(this).data('type'));
     });
 
+    // Click to add (easier alternative to dragging)
+    $('.drag-source').on('click', function() {
+        const type = $(this).data('type');
+        // Add to center of 1080x1080 canvas
+        addPlaceholder(type, 1080 / 2, 1080 / 2);
+    });
+
     // Canvas Drop target
     const wrapper = $('.designer-canvas-wrap')[0];
     wrapper.addEventListener('dragover', function(e) { e.preventDefault(); });
