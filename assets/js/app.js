@@ -107,10 +107,12 @@ $(document).ready(function() {
         
         fabric.Image.fromURL(dataUrl, function(img) {
             userImgObj = img;
+            userImgObj.set({
+                selectable: false, evented: false
+            });
             centerAndScaleUserImage();
             canvas.add(userImgObj);
             userImgObj.sendToBack();
-            canvas.setActiveObject(userImgObj);
             canvas.renderAll();
             saveHistory();
         });
@@ -126,6 +128,9 @@ $(document).ready(function() {
 
         fabric.Image.fromURL(dataUrl, function(img) {
             logoImgObj = img;
+            logoImgObj.set({
+                selectable: false, evented: false
+            });
             positionLogo();
             canvas.add(logoImgObj);
             if (frameImgObj) frameImgObj.bringToFront(); // keep frame on top
@@ -225,12 +230,6 @@ $(document).ready(function() {
             scaleX: scale, scaleY: scale,
             angle: 0
         });
-        
-        // Reset controls
-        $('#zoomRange').val(Math.round(scale * 100));
-        $('#zoomVal').text(Math.round(scale * 100) + '%');
-        $('#rotateRange').val(0);
-        $('#rotateVal').text('0°');
     }
 
     function positionLogo() {
@@ -371,24 +370,6 @@ $(document).ready(function() {
             saveHistory();
         }
     });
-
-    // ─── 5. PHOTO ADJUSTMENTS (Zoom/Rotate) ────────────────────────
-    
-    $('#zoomRange').on('input', function() {
-        if (!userImgObj) return;
-        const scale = parseInt($(this).val()) / 100;
-        $('#zoomVal').text($(this).val() + '%');
-        userImgObj.set({ scaleX: scale, scaleY: scale });
-        canvas.renderAll();
-    }).on('change', saveHistory);
-
-    $('#rotateRange').on('input', function() {
-        if (!userImgObj) return;
-        const angle = parseInt($(this).val());
-        $('#rotateVal').text(angle + '°');
-        userImgObj.set({ angle: angle });
-        canvas.renderAll();
-    }).on('change', saveHistory);
 
     // ─── 6. HISTORY (UNDO/REDO) ────────────────────────────────────
 

@@ -228,27 +228,6 @@ require_once __DIR__ . '/includes/header.php';
                     <canvas id="editorCanvas"></canvas>
                 </div>
 
-                <!-- Context Help -->
-                <div class="mt-3 text-muted small d-flex justify-content-center align-items-center gap-2">
-                    <i class="fa-solid fa-circle-info text-info"></i>
-                    <span>Drag and resize the photo, logo, or text directly on the canvas preview.</span>
-                </div>
-            </div>
-
-            <!-- Photo Adjustment Controls -->
-            <div class="glass-card mb-4 p-3">
-                <div class="row g-3 align-items-center">
-                    <div class="col-md-6 d-flex align-items-center gap-3">
-                        <i class="fa-solid fa-magnifying-glass-plus text-muted" title="Zoom"></i>
-                        <input type="range" class="form-range flex-grow-1" id="zoomRange" min="10" max="300" value="100">
-                        <span class="badge bg-secondary font-mono" id="zoomVal">100%</span>
-                    </div>
-                    <div class="col-md-6 d-flex align-items-center gap-3">
-                        <i class="fa-solid fa-rotate text-muted" title="Rotate"></i>
-                        <input type="range" class="form-range flex-grow-1" id="rotateRange" min="-180" max="180" value="0">
-                        <span class="badge bg-secondary font-mono" id="rotateVal">0&deg;</span>
-                    </div>
-                </div>
             </div>
 
             <!-- Export Actions -->
