@@ -162,11 +162,14 @@ $(document).ready(function() {
     $(document).on('click', '.frame-thumbnail', function() {
         $('.frame-thumbnail').removeClass('active');
         $(this).addClass('active');
+        
+        const overlaySrc = $(this).find('img').attr('src');
 
         // Parse JSON payload embedded in the HTML
         const jsonString = $(this).find('.frame-data-payload').html();
         try {
             currentConfig = JSON.parse(jsonString);
+            if (!currentConfig.frame_image) currentConfig.frame_image = overlaySrc;
             applyFrameConfig(currentConfig, $(this).data('id'));
         } catch (e) {
             console.error('Invalid Frame JSON', e);
@@ -181,8 +184,13 @@ $(document).ready(function() {
         if (frameImgObj) canvas.remove(frameImgObj);
         
         // Convert paths properly
-        let overlayPath = baseUrl + '/' + config.frame_image;
-        if (config.frame_image.startsWith('http')) overlayPath = config.frame_image;
+        let overlayPath = config.frame_image;
+        if (overlayPath && !overlayPath.startsWith('http')) {
+            // Remove baseUrl if it's already there to prevent double prepending, or just prepend if missing
+            if (baseUrl && !overlayPath.startsWith(baseUrl)) {
+                overlayPath = baseUrl + '/' + overlayPath;
+            }
+        }
         
         fabric.Image.fromURL(overlayPath, function(img) {
             frameImgObj = img;
