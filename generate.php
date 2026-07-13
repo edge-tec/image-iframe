@@ -137,12 +137,12 @@ $dtFont = resolve_font_path('Roboto', true);
 
 if (isset($template['date'])) {
     $d = $template['date'];
-    draw_wrapped_text($canvas, $dt['date'], $dtFont, $d['fontSize'] ?? 24, $d['color'] ?? '#ffffff', $d['x'], $d['y'] - (($d['fontSize'] ?? 24) / 2));
+    draw_wrapped_text($canvas, $dt['date'], $dtFont, (int)($d['fontSize'] ?? 24), $d['color'] ?? '#ffffff', (int)$d['x'], (int)($d['y'] - (($d['fontSize'] ?? 24) / 2)));
 }
 
 if (isset($template['time'])) {
     $t = $template['time'];
-    draw_wrapped_text($canvas, $dt['time'], $dtFont, $t['fontSize'] ?? 24, $t['color'] ?? '#ffffff', $t['x'], $t['y'] - (($t['fontSize'] ?? 24) / 2));
+    draw_wrapped_text($canvas, $dt['time'], $dtFont, (int)($t['fontSize'] ?? 24), $t['color'] ?? '#ffffff', (int)$t['x'], (int)($t['y'] - (($t['fontSize'] ?? 24) / 2)));
 }
 
 // Headline

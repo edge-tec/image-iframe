@@ -495,7 +495,7 @@ $(document).ready(function() {
 
     $('.btn-download, .btn-download-primary').on('click', function() {
         if (!currentConfig) return alert('Please select a frame overlay.');
-        if (!userImgObj && !uploadedUserPath) return alert('Please upload a photo.');
+        if (currentConfig.image && !userImgObj && !uploadedUserPath) return alert('Please upload a photo.');
 
         const format = $(this).data('format'); // png | jpg
         const quality = $(this).data('quality'); // sd | hd
