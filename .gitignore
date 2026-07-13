@@ -1,0 +1,11 @@
+/includes/config.php
+/uploads/images/*
+!/uploads/images/.gitkeep
+/uploads/logos/*
+!/uploads/logos/.gitkeep
+/uploads/frames/*
+!/uploads/frames/.gitkeep
+/uploads/output/*
+!/uploads/output/.gitkeep
+.DS_Store
+*.log
