@@ -5,8 +5,15 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Prevent re-installation unless forced
-if (file_exists(__DIR__ . '/includes/config.php') && !isset($_GET['force'])) {
+// Handle Force Reinstall
+if (isset($_GET['force'])) {
+    @unlink(__DIR__ . '/includes/config.php');
+    header('Location: install.php');
+    exit;
+}
+
+// Prevent re-installation
+if (file_exists(__DIR__ . '/includes/config.php')) {
     die("Installation already complete. To reinstall, delete includes/config.php and drop the database. <br><br> <a href='?force=1' style='color:red;'>Click here to Force Reinstall (Overwrites Database)</a>");
 }
 
