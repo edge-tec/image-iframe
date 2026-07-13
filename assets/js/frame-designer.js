@@ -94,6 +94,19 @@ $(document).ready(function() {
             canvas.add(frameBgObj);
             frameBgObj.sendToBack();
             if (gridGroup) gridGroup.sendToBack();
+            
+            // Auto-populate placeholders for new frames to make it foolproof
+            if (!document.getElementById('existingTemplateJson') && !window.placeholdersAdded) {
+                window.placeholdersAdded = true;
+                addPlaceholder('image', 540, 540);
+                addPlaceholder('logo', 150, 150);
+                addPlaceholder('headline', 540, 800);
+                addPlaceholder('subheading', 540, 860);
+                addPlaceholder('reporter', 540, 920);
+                addPlaceholder('date', 200, 1000);
+                addPlaceholder('time', 880, 1000);
+            }
+            
             canvas.renderAll();
             saveHistory();
             if (callback) callback();
