@@ -10,6 +10,19 @@ CREATE DATABASE IF NOT EXISTS `image_frame_generator`
 USE `image_frame_generator`;
 
 -- ================================================================
+-- RESET OLD INSTALLATION (Drop existing tables safely)
+-- ================================================================
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `settings`;
+DROP TABLE IF EXISTS `generated_images`;
+DROP TABLE IF EXISTS `frame_templates`;
+DROP TABLE IF EXISTS `frames`;
+DROP TABLE IF EXISTS `categories`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `admins`;
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- ================================================================
 -- 1. ADMINS TABLE
 -- Stores admin credentials for the backend dashboard
 -- ================================================================
