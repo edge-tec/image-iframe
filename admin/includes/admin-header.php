@@ -2,8 +2,8 @@
 /**
  * Image Frame Generator — Admin Header
  */
-require_once dirname(__DIR__) . '/includes/database.php';
-require_once dirname(__DIR__) . '/includes/functions.php';
+require_once dirname(__DIR__, 2) . '/includes/database.php';
+require_once dirname(__DIR__, 2) . '/includes/functions.php';
 
 require_admin();
 
