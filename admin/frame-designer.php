@@ -98,12 +98,12 @@ if ($editId > 0) {
                 
                 <div class="mb-3">
                     <label class="form-label small text-muted">Frame Name</label>
-                    <input type="text" class="form-control bg-dark text-white border-secondary-subtle" id="frameName" value="<?= $frameData ? e($frameData['name']) : '' ?>" required>
+                    <input type="text" name="frameName" class="form-control bg-dark text-white border-secondary-subtle" id="frameName" value="<?= $frameData ? e($frameData['name']) : '' ?>" required>
                 </div>
                 
                 <div class="mb-3">
                     <label class="form-label small text-muted">Category</label>
-                    <select class="form-select bg-dark text-white border-secondary-subtle" id="frameCategory" required>
+                    <select name="frameCategory" class="form-select bg-dark text-white border-secondary-subtle" id="frameCategory" required>
                         <option value="">Select Category...</option>
                         <?php foreach ($categories as $cat): ?>
                             <option value="<?= $cat['id'] ?>" <?= ($frameData && $frameData['category_id'] == $cat['id']) ? 'selected' : '' ?>><?= e($cat['name']) ?></option>
