@@ -22,72 +22,57 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($step === 1) {
-        // Test Database Connection and Save Config
-        $host = $_POST['db_host'] ?? '127.0.0.1';
-        $user = $_POST['db_user'] ?? 'root';
-        $pass = $_POST['db_pass'] ?? '';
-        $name = $_POST['db_name'] ?? 'image_frame_generator';
+    // Single Step Installation
+    $host = $_POST['db_host'] ?? '127.0.0.1';
+    $user = $_POST['db_user'] ?? 'root';
+    $pass = $_POST['db_pass'] ?? '';
+    $name = $_POST['db_name'] ?? 'image_frame_generator';
 
-        try {
-            // First connect without DB to try creating it
-            $pdo = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            $pdo->exec("CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-            $pdo->exec("USE `$name`");
+    try {
+        // Connect and create database
+        $pdo = new PDO("mysql:host=$host;charset=utf8mb4", $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $pdo->exec("CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+        $pdo->exec("USE `$name`");
 
-            // Write config.php
-            $sample = file_get_contents(__DIR__ . '/includes/config.sample.php');
-            if ($sample === false) {
-                throw new Exception("config.sample.php is missing.");
-            }
-
-            $config = str_replace(
-                ["define('DB_HOST', '127.0.0.1');", "define('DB_USER', 'your_db_username');", "define('DB_PASS', 'your_db_password');", "define('DB_NAME', 'image_frame_generator');"],
-                ["define('DB_HOST', '$host');", "define('DB_USER', '$user');", "define('DB_PASS', '$pass');", "define('DB_NAME', '$name');"],
-                $sample
-            );
-
-            if (file_put_contents(__DIR__ . '/includes/config.php', $config) === false) {
-                throw new Exception("Could not write to includes/config.php. Check directory permissions.");
-            }
-
-            header('Location: install.php?step=2');
-            exit;
-
-        } catch (Exception $e) {
-            $error = $e->getMessage();
+        // Execute SQL commands
+        $sql = file_get_contents(__DIR__ . '/database.sql');
+        if ($sql === false) {
+            throw new Exception("database.sql is missing.");
         }
-    } elseif ($step === 2) {
-        // Import SQL
-        require_once __DIR__ . '/includes/config.php';
-        
-        try {
-            $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4", DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-            
-            $sql = file_get_contents(__DIR__ . '/database.sql');
-            if ($sql === false) {
-                throw new Exception("database.sql is missing.");
-            }
+        $pdo->exec($sql);
 
-            // Execute SQL commands
-            $pdo->exec($sql);
-            
-            // Create upload directories
-            $dirs = ['uploads/images', 'uploads/logos', 'uploads/frames', 'uploads/output'];
-            foreach ($dirs as $dir) {
-                if (!is_dir(__DIR__ . '/' . $dir)) {
-                    mkdir(__DIR__ . '/' . $dir, 0777, true);
-                }
-            }
-
-            header('Location: install.php?step=3');
-            exit;
-            
-        } catch (Exception $e) {
-            $error = $e->getMessage();
-            // Delete config if SQL fails
-            @unlink(__DIR__ . '/includes/config.php');
+        // Write config.php
+        $sample = file_get_contents(__DIR__ . '/includes/config.sample.php');
+        if ($sample === false) {
+            throw new Exception("config.sample.php is missing.");
         }
+
+        $config = str_replace(
+            ["define('DB_HOST', '127.0.0.1');", "define('DB_USER', 'your_db_username');", "define('DB_PASS', 'your_db_password');", "define('DB_NAME', 'image_frame_generator');"],
+            ["define('DB_HOST', '$host');", "define('DB_USER', '$user');", "define('DB_PASS', '$pass');", "define('DB_NAME', '$name');"],
+            $sample
+        );
+
+        if (file_put_contents(__DIR__ . '/includes/config.php', $config) === false) {
+            throw new Exception("Could not write to includes/config.php. Check directory permissions.");
+        }
+
+        // Create upload directories
+        $dirs = ['uploads/images', 'uploads/logos', 'uploads/frames', 'uploads/output'];
+        foreach ($dirs as $dir) {
+            if (!is_dir(__DIR__ . '/' . $dir)) {
+                mkdir(__DIR__ . '/' . $dir, 0777, true);
+            }
+        }
+
+        // Redirect to success step
+        header('Location: install.php?step=3');
+        exit;
+
+    } catch (Exception $e) {
+        $error = $e->getMessage();
+        // Clean up config if it fails midway
+        @unlink(__DIR__ . '/includes/config.php');
     }
 }
 ?>
@@ -108,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="text-center mb-4">
             <i class="fa-solid fa-wand-magic-sparkles text-primary fs-1 mb-2"></i>
             <h3 class="font-outfit fw-bold text-gradient mb-1">Installation Wizard</h3>
-            <p class="text-muted small">Step <?= $step ?> of 3</p>
+            <p class="text-muted small">Step <?= $step === 3 ? 2 : $step ?> of 2</p>
         </div>
 
         <?php if ($error): ?>
@@ -141,17 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 <button type="submit" class="btn btn-primary w-100 py-2 fw-bold font-outfit">Connect & Continue</button>
             </form>
-
-        <?php elseif ($step === 2): ?>
-            <div class="text-center py-4">
-                <i class="fa-solid fa-database text-success fs-1 mb-3"></i>
-                <h5 class="text-white font-outfit mb-3">Database Connected!</h5>
-                <p class="text-muted small mb-4">Click below to create the database tables, insert default data, and setup the required upload directories.</p>
-                
-                <form method="POST">
-                    <button type="submit" class="btn btn-primary w-100 py-2 fw-bold font-outfit">Import SQL Schema</button>
-                </form>
-            </div>
 
         <?php elseif ($step === 3): ?>
             <div class="text-center py-4">
