@@ -208,7 +208,7 @@ require_once __DIR__ . '/includes/header.php';
         </div>
 
         <!-- ─── CENTER: CANVAS PREVIEW & EXPORT ──────────────────────── -->
-        <div class="col-lg-7 order-1 order-lg-2 anim-fade-up" style="animation-delay: 0.2s;">
+        <div class="col-lg-7 order-1 order-lg-2 anim-fade-up sticky-top" style="animation-delay: 0.2s; top: 1rem; z-index: 1020; height: max-content;">
             <div class="glass-card mb-4 p-3 p-md-4 text-center">
                 
                 <div class="d-flex justify-content-between align-items-center mb-3">
